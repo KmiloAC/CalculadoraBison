@@ -127,14 +127,14 @@ Tokens Generados:
 Construcción del Árbol de Sintaxis:
 
 **Construcción del Árbol de Sintaxis**:
-    - **Árbol**:
-      ```plaintext
-          +
-         / \
-        3   *
-           / \
-          5   2
-      ```
+- **Árbol**:
+  ```plaintext
+      +
+     / \
+    3   *
+       / \
+      5   2
+
 
     - **Evaluación**:
       - Primero se evalúa `5 * 2` que da `10`.
