@@ -97,28 +97,32 @@ En primer lugar, tenemos las definiciones de tokens
 
 
 ### 3.3) Evaluación
-Proceso de Evaluación
-Lexical Analysis (Análisis Léxico):
+####Proceso de Evaluación
+
+1. Lexical Analysis (Análisis Léxico):
 
 Flex genera un analizador léxico que convierte una cadena de entrada en una secuencia de tokens.
-Los tokens reconocidos en este ejemplo son operadores (+, -, *, /, |), paréntesis, números y otros caracteres especiales como el fin de línea (\n).
+Los tokens reconocidos en este ejemplo son operadores `(+, -, *, /, |)`, paréntesis, números y otros caracteres especiales como el fin de línea (\n).
 Cada token se asocia con un valor, por ejemplo, un número se convierte en un valor entero (yylval = atoi(yytext);).
-Syntax Analysis (Análisis Sintáctico):
+
+2. Syntax Analysis (Análisis Sintáctico):
 
 Bison toma los tokens generados por el analizador léxico y construye un árbol de sintaxis.
 El árbol de sintaxis es una estructura jerárquica que representa la estructura gramatical de la expresión de entrada.
 La gramática definida en la sección Bison (el archivo .y) especifica cómo se combinan los tokens para formar expresiones (exp, factor, term).
-Evaluación del Árbol de Sintaxis:
+
+3.Evaluación del Árbol de Sintaxis:
 
 El árbol de sintaxis se recorre desde las hojas hacia la raíz.
 Cada regla de producción en la gramática tiene un bloque de código asociado que realiza la operación correspondiente:
-Operaciones aritméticas: Por ejemplo, en exp ADD exp { $$ = $1 + $3; }, los valores de las subexpresiones a la izquierda y derecha ($1 y $3) se suman.
 
-Prioridad de operadores: Las expresiones se evalúan según la prioridad definida en la gramática. Por ejemplo, la multiplicación y la división tienen una prioridad más alta que la suma y la resta.
+  Operaciones aritméticas: Por ejemplo, en exp ADD exp { $$ = $1 + $3; }, los valores de las subexpresiones a la izquierda y derecha ($1   y $3) se suman.
+
+  Prioridad de operadores: Las expresiones se evalúan según la prioridad definida en la gramática. Por ejemplo, la multiplicación y la     división tienen una prioridad más alta que la suma y la resta.
 
 Paréntesis y operadores unarios: Los paréntesis permiten alterar la precedencia de los operadores, y el operador de valor absoluto (|) se maneja en las reglas correspondientes.
 
-> Producción del Resultado Final:
+4. Producción del Resultado Final:
 
 Después de que la expresión completa ha sido evaluada, el resultado se almacena en la variable especial $$, que se propaga hacia arriba en el árbol de sintaxis.
 Finalmente, el resultado de la expresión completa se imprime (printf("= %d\n> ", $2);).
