@@ -99,20 +99,6 @@ En primer lugar, tenemos las definiciones de tokens
 ### 3.3) Evaluación
 #### Proceso de Evaluación
 
-1. Lexical Analysis (Análisis Léxico):
-
-Flex genera un analizador léxico que convierte una cadena de entrada en una secuencia de tokens.
-Los tokens reconocidos en este ejemplo son operadores `(+, -, *, /, |)`, paréntesis, números y otros caracteres especiales como el fin de línea `(\n)`.
-Cada token se asocia con un valor, por ejemplo, un número se convierte en un valor entero `(yylval = atoi(yytext);)`.
-
-2. Syntax Analysis (Análisis Sintáctico):
-
-Bison toma los tokens generados por el analizador léxico y construye un árbol de sintaxis.
-El árbol de sintaxis es una estructura jerárquica que representa la estructura gramatical de la expresión de entrada.
-La gramática definida en la sección Bison `(el archivo .y)` especifica cómo se combinan los tokens para formar expresiones `(exp, factor, term)`.
-
-3.Evaluación del Árbol de Sintaxis:
-
 El árbol de sintaxis se recorre desde las hojas hacia la raíz.
 Cada regla de producción en la gramática tiene un bloque de código asociado que realiza la operación correspondiente:
 
