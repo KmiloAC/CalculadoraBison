@@ -126,9 +126,25 @@ Tokens Generados:
   
 Construcción del Árbol de Sintaxis:
 
+**Construcción del Árbol de Sintaxis**:
+    - **Árbol**:
+      ```plaintext
+          +
+         / \
+        3   *
+           / \
+          5   2
+      ```
+
+    - **Evaluación**:
+      - Primero se evalúa `5 * 2` que da `10`.
+      - Luego, se evalúa `3 + 10` que da `13`.
+
 Según la gramática, `5 * 2` se evalúa primero porque la multiplicación tiene mayor prioridad.
 Luego, `3 + (5 * 2)` se evalúa.
 Resultado Final:
 
 El resultado es `13`, que se imprime como salida.
 Este flujo desde la entrada hasta la producción del resultado final es cómo se evalúa la expresión utilizando un árbol de sintaxis en esta calculadora simple.
+
+
