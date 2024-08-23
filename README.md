@@ -94,7 +94,75 @@ En primer lugar, tenemos las definiciones de tokens
 %token EOL
 ```
 
+1. %token NUMBER: Representa un número entero en la entrada del usuario. Se utiliza para identificar los valores numéricos que son operados en las expresiones. Ejemplo: En la expresión 3 + 5, tanto 3 como 5 son tokens NUMBER.
 
+2. %token ADD (+): Representa el operador de adición (+). Se utiliza para identificar y procesar operaciones de suma. Ejemplo: En la expresión 3 + 5, el + es reconocido como el token ADD.
+
+3. %token SUB (-): Representa el operador de sustracción (-). Se utiliza para identificar y procesar operaciones de resta. Ejemplo: En la expresión 7 - 2, el - es reconocido como el token SUB.
+
+4. %token MUL (*): Representa el operador de multiplicación (*). Se utiliza para identificar y procesar operaciones de multiplicación. Ejemplo: En la expresión 4 * 2, el * es reconocido como el token MUL.
+
+5. %token DIV (/): Representa el operador de división (/). Se utiliza para identificar y procesar operaciones de división. Ejemplo: En la expresión 10 / 2, el / es reconocido como el token DIV.
+
+6. %token ABS (|): Representa el operador de valor absoluto (|). Se utiliza para identificar y procesar operaciones de valor absoluto. Ejemplo: En la expresión | -3 |, el | es reconocido como el token ABS y la expresión se evaluaría como 3.
+
+7. %token OP ((): Representa un paréntesis de apertura ((). Se utiliza para manejar la agrupación de subexpresiones, asegurando que las operaciones dentro de los paréntesis se evalúen primero. Ejemplo: En la expresión (3 + 2) * 5, el ( es reconocido como el token OP.
+
+8. %token CP ()): Representa un paréntesis de cierre ()). Se utiliza junto con OP para cerrar una subexpresión y asegurar que se respete la precedencia de las operaciones. Ejemplo: En la expresión (3 + 2) * 5, el ) es reconocido como el token CP.
+
+9. %token EOL: Representa el final de una línea de entrada (salto de línea). Se utiliza para indicar que la expresión ha terminado y que el resultado puede ser evaluado e impreso. Ejemplo: Cuando el usuario presiona "Enter" después de escribir 3 + 5, se reconoce el final de línea como EOL, lo que desencadena la evaluación de la expresión y la impresión del resultado.
+
+Despúes se plantean las reglas gramaticales y la construcción del arbol de de sintaxis 
+
+```
+calclist: /* nothing */
+ | calclist exp EOL { printf("= %d\n> ", $2); }
+ | calclist EOL { printf("> "); } /* blank line or a comment */
+ ;
+```
+
+calclist es el punto de entrada principal del parser.
+La primera regla (/* nothing */) permite una lista vacía de cálculos.
+La segunda regla combina una lista previa de cálculos (calclist), una expresión (exp), y el final de línea (EOL). El resultado de la expresión ($2) se imprime.
+La tercera regla maneja líneas vacías o comentarios, simplemente imprimiendo un nuevo prompt (>).
+
+```
+exp: factor
+ | exp ADD exp { $$ = $1 + $3; }
+ | exp SUB factor { $$ = $1 - $3; }
+ | exp ABS factor { $$ = $1 | $3; }
+ ;
+```
+
+exp define una expresión:
+1. factor: Una expresión puede ser simplemente un factor.
+2. exp ADD exp: Define una adición, combinando dos expresiones con +. El resultado es la suma de los dos operandos.
+3. exp SUB factor: Define una sustracción, restando un factor de una expresión.
+4. exp ABS factor: Define una operación de valor absoluto, representada aquí por un operador |.
+
+```
+factor: term
+ | factor MUL term { $$ = $1 * $3; }
+ | factor DIV term { $$ = $1 / $3; }
+ ;
+```
+
+factor maneja multiplicación y división:
+1. term: Un factor puede ser simplemente un término.
+2. factor MUL term: Define una multiplicación entre dos factores.
+3. factor DIV term: Define una división entre dos factores.
+
+```
+term: NUMBER
+ | ABS term { $$ = $2 >= 0? $2 : - $2; }
+ | OP exp CP { $$ = $2; }
+ ;
+```
+
+term representa un valor simple:
+1. NUMBER: Un término puede ser un número.
+2. ABS term: Aplica la operación de valor absoluto. Si el término es negativo, se convierte a positivo.
+3. OP exp CP: Maneja expresiones entre paréntesis, garantizando que se evalúen primero.
 
 ### 3.3) Evaluación
 #### Proceso de Evaluación
