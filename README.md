@@ -127,11 +127,11 @@ Para una entrada como 3 + 5 * 2, el proceso es el siguiente:
 
 Tokens Generados:
 
-3 (NUMBER)
-+ (ADD)
-5 (NUMBER)
-* (MUL)
-2 (NUMBER)
+´3´ (NUMBER)
+´+´ (ADD)
+´5´ (NUMBER)
+´*´ (MUL)
+´2´ (NUMBER)
 Construcción del Árbol de Sintaxis:
 
 Según la gramática, 5 * 2 se evalúa primero porque la multiplicación tiene mayor prioridad.
